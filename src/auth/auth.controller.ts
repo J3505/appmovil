@@ -1,18 +1,13 @@
 import {
   Controller,
-  Get,
   Post,
   Put,
   Body,
-  Patch,
-  Param,
-  Delete,
   Res,
   UseGuards,
   Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { Response } from 'express';
@@ -40,11 +35,6 @@ export class AuthController {
     return this.authService.login(dto, res);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.authService.findAll();
-  // }
-
   @UseGuards(JwtAuthGuard)
   @Put('update')
   updateUser(@Body() dto: UpdateUserDto, @Req() req: UserRequest) {
@@ -61,20 +51,5 @@ export class AuthController {
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response, @Req() req: UserRequest) {
     return this.authService.logout(res);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(id);
   }
 }
