@@ -7,19 +7,11 @@ import { PrismaService } from 'nestjs-prisma';
 export class DetallePedidoService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(dto: CreateDetallePedidoDto, pedidoId: number) {
+  create(dto: CreateDetallePedidoDto) {
     return this.prisma.detallePedido.create({
       data: {
-        pedido: {
-          connect: {
-            id: pedidoId,
-          },
-        },
-        producto: {
-          connect: {
-            id: dto.productoId,
-          },
-        },
+        pedidoId: dto.pedidoId,
+        productoId: dto.productoId,
         cantidad: dto.cantidad,
         subtotal: dto.subtotal,
       },
@@ -27,11 +19,19 @@ export class DetallePedidoService {
   }
 
   findAll() {
-    return this.prisma.detallePedido.findMany();
+    return this.prisma.detallePedido.findMany({
+      include: {
+        pedido: true,
+        producto: true,
+      },
+    });
   }
 
   findOne(id: number) {
-    return this.prisma.detallePedido.findUnique({ where: { id } });
+    return this.prisma.detallePedido.findUnique({
+      where: { id },
+      include: { pedido: true, producto: true },
+    });
   }
 
   update(id: number, dto: UpdateDetallePedidoDto) {

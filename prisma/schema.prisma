@@ -41,9 +41,8 @@ model User {
   updatedAt   DateTime @updatedAt
 
   productos Producto[]
-  pedidos Pedido[]
+  pedidos   Pedido[]
 }
-
 
 model TipoBebida {
   id        Int        @id @default(autoincrement())
@@ -64,49 +63,49 @@ model Marca {
 }
 
 model Producto {
-  id              Int           @id @default(autoincrement())
-  nombre          String
-  descripcion     String?
-  precio          Float
-  stock           Int
+  id          Int     @id @default(autoincrement())
+  nombre      String
+  descripcion String?
+  precio      Float
+  stock       Int
 
-  proveedor       User          @relation(fields: [proveedorId], references: [id])
-  proveedorId     String
+  proveedor   User   @relation(fields: [proveedorId], references: [id])
+  proveedorId String
 
-  tipoBebida      TipoBebida    @relation(fields: [tipoBebidaId], references: [id])
-  tipoBebidaId    Int
+  tipoBebida   TipoBebida @relation(fields: [tipoBebidaId], references: [id])
+  tipoBebidaId Int
 
   tamanioEnvase   TamanioEnvase @relation(fields: [tamanioEnvaseId], references: [id])
   tamanioEnvaseId Int
 
-  marca           Marca         @relation(fields: [marcaId], references: [id])
-  marcaId         Int
+  marca   Marca @relation(fields: [marcaId], references: [id])
+  marcaId Int
 
-  creadoEn        DateTime      @default(now())
-  actualizadoEn   DateTime      @updatedAt
+  creadoEn      DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
 
-  detalles        DetallePedido[]
+  detalles DetallePedido[]
 }
 
 model Pedido {
-  id          Int       @id @default(autoincrement())
-  cliente     User      @relation(fields: [clienteId], references: [id])
-  clienteId   String
-  total       Float
-  estado      EstadoPedido
-  creadoEn    DateTime   @default(now())
-  detalles    DetallePedido[]
+  id        Int             @id @default(autoincrement())
+  cliente   User            @relation(fields: [clienteId], references: [id])
+  clienteId String
+  total     Float
+  estado    EstadoPedido
+  creadoEn  DateTime        @default(now())
+  detalles  DetallePedido[]
 }
 
 model DetallePedido {
-  id          Int       @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  pedido      Pedido    @relation(fields: [pedidoId], references: [id])
-  pedidoId    Int
+  pedido   Pedido @relation(fields: [pedidoId], references: [id])
+  pedidoId Int
 
-  producto    Producto  @relation(fields: [productoId], references: [id])
-  productoId  Int
+  producto   Producto @relation(fields: [productoId], references: [id])
+  productoId Int
 
-  cantidad    Int
-  subtotal    Float
+  cantidad Int
+  subtotal Float
 }

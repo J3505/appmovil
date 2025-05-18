@@ -7,22 +7,43 @@ import { PrismaService } from 'nestjs-prisma';
 export class PedidoService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(dto: CreatePedidoDto) {
+  // async create(dto: CreatePedidoDto, clienteId: string) {
+  //   let total = 0;
+  //   const detalles = await Promise.all(
+  //     dto.detalles.map(async (detalle) => {
+  //       const producto = await this.prisma.producto.findUnique({
+  //         where: {
+  //           id: detalle.productoId,
+  //         },
+  //       });
+  //       const subtotal = (producto?.precio || 0) * detalle.cantidad;
+  //       total += subtotal;
+  //       return { ...detalle, subtotal };
+  //     }),
+  //   );
+  //   return this.prisma.pedido.create({
+  //     data: {
+  //       clienteId,
+  //       total,
+  //       estado: 'PENDIENTE',
+  //       detalles: { create: detalles },
+  //     },
+  //     include: {
+  //       detalles: true,
+  //       cliente: true,
+  //     },
+  //   });
+  // }
+
+  async create(dto: CreatePedidoDto) {
+    const { detalles, ...pedidoData } = dto;
+
     return this.prisma.pedido.create({
       data: {
-        clienteId: dto.clienteId,
-        total: dto.total,
-        estado: dto.estado,
+        ...pedidoData,
         detalles: {
-          create: dto.detalles.map((detalle) => ({
-            productoId: detalle.productoId,
-            cantidad: detalle.cantidad,
-            subtotal: detalle.subtotal,
-            producto: {
-              connect: {
-                id: detalle.productoId,
-              },
-            },
+          create: detalles.map((detalle) => ({
+            ...detalle,
           })),
         },
       },
@@ -35,27 +56,48 @@ export class PedidoService {
   findAll() {
     return this.prisma.pedido.findMany({
       include: {
-        detalles: true,
+        cliente: true,
+        detalles: {
+          include: {
+            producto: true,
+          },
+        },
       },
     });
   }
 
   findOne(id: number) {
-    return this.prisma.pedido.findUnique({ where: { id } });
+    return this.prisma.pedido.findUnique({
+      where: { id },
+      include: {
+        cliente: true,
+        detalles: {
+          include: {
+            producto: true,
+          },
+        },
+      },
+    });
   }
 
-  update(id: number, dto: UpdatePedidoDto) {
+  update(id: number, data: UpdatePedidoDto) {
     return this.prisma.pedido.update({
       where: { id },
       data: {
-        clienteId: dto.clienteId,
-        total: dto.total,
-        estado: dto.estado,
+        ...data,
+        detalles: {
+          deleteMany: {},
+          create: data.detalles?.map((detalle) => ({
+            ...detalle,
+          })),
+        },
       },
     });
   }
 
   remove(id: number) {
-    return this.prisma.pedido.delete({ where: { id } });
+    return this.prisma.pedido.delete({
+      where: { id },
+    });
   }
 }

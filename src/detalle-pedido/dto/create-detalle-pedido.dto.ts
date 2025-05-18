@@ -1,21 +1,17 @@
-import { IsNumber, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNumber, IsPositive } from 'class-validator';
 
 export class CreateDetallePedidoDto {
+  @IsNumber()
+  pedidoId: number;
+
   @IsNumber()
   productoId: number;
 
   @IsNumber()
+  @IsPositive()
   cantidad: number;
 
   @IsNumber()
+  @IsPositive()
   subtotal: number;
-
-  @ValidateNested()
-  @Type(() => Object)
-  producto: {
-    connect: {
-      id: number;
-    };
-  };
 }

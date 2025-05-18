@@ -1,13 +1,32 @@
-import { EstadoPedido } from '@prisma/client';
 import {
-  IsArray,
+  IsUUID,
   IsEnum,
   IsNumber,
-  IsUUID,
+  IsPositive,
+  IsArray,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { CreateDetallePedidoDto } from 'src/detalle-pedido/dto/create-detalle-pedido.dto';
+
+enum EstadoPedido {
+  PENDIENTE = 'PENDIENTE',
+  ENVIADO = 'ENVIADO',
+  ENTREGADO = 'ENTREGADO',
+  CANCELADO = 'CANCELADO',
+}
+
+class DetalleDto {
+  @IsNumber()
+  productoId: number;
+
+  @IsNumber()
+  @IsPositive()
+  cantidad: number;
+
+  @IsNumber()
+  @IsPositive()
+  subtotal: number;
+}
 
 export class CreatePedidoDto {
   @IsUUID()
@@ -21,6 +40,6 @@ export class CreatePedidoDto {
 
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => CreateDetallePedidoDto)
-  detalles: CreateDetallePedidoDto[];
+  @Type(() => DetalleDto)
+  detalles: DetalleDto[];
 }

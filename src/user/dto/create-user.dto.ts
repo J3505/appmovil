@@ -1,35 +1,33 @@
 import { Role } from '@prisma/client';
-import {
-  IsEmail,
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
+  @IsNotEmpty()
   nombre: string;
 
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   apellido: string;
 
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   telefono: string;
 
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   direccion: string;
 
   @IsNotEmpty()
+  @Length(8, 8, { message: 'El DNI debe tener al menos 8 caracteres' })
   dni: string;
 
   @IsEmail()
   correo: string;
 
-  @IsNotEmpty()
+  @Length(6, 100, {
+    message: 'La contraseña debe tener al menos 6 caracteres',
+  })
   contrasenia: string;
 
   @IsEnum(Role)

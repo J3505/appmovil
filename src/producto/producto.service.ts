@@ -14,30 +14,10 @@ export class ProductoService {
   findAll() {
     return this.prisma.producto.findMany({
       include: {
-        proveedor: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
-        tipoBebida: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
-        tamanioEnvase: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
-        marca: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
+        proveedor: true,
+        tipoBebida: true,
+        tamanioEnvase: true,
+        marca: true,
       },
       orderBy: {
         nombre: 'asc',
@@ -49,30 +29,10 @@ export class ProductoService {
     return this.prisma.producto.findUnique({
       where: { id },
       include: {
-        proveedor: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
-        tipoBebida: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
-        tamanioEnvase: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
-        marca: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
+        proveedor: true,
+        tipoBebida: true,
+        tamanioEnvase: true,
+        marca: true,
       },
     });
   }
@@ -82,30 +42,10 @@ export class ProductoService {
       where: { id },
       data: dto,
       include: {
-        proveedor: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
-        tipoBebida: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
-        tamanioEnvase: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
-        marca: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
+        proveedor: true,
+        tipoBebida: true,
+        tamanioEnvase: true,
+        marca: true,
       },
     });
   }
