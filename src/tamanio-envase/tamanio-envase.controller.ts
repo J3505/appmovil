@@ -3,7 +3,7 @@ import { TamanioEnvaseService } from './tamanio-envase.service';
 import { CreateTamanioEnvaseDto } from './dto/create-tamanio-envase.dto';
 import { UpdateTamanioEnvaseDto } from './dto/update-tamanio-envase.dto';
 
-@Controller('tamanio-envase')
+@Controller('tamanioEnvase')
 export class TamanioEnvaseController {
   constructor(private readonly tamanioEnvaseService: TamanioEnvaseService) {}
 

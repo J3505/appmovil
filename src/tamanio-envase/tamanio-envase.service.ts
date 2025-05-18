@@ -1,26 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTamanioEnvaseDto } from './dto/create-tamanio-envase.dto';
 import { UpdateTamanioEnvaseDto } from './dto/update-tamanio-envase.dto';
+import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class TamanioEnvaseService {
-  create(createTamanioEnvaseDto: CreateTamanioEnvaseDto) {
-    return 'This action adds a new tamanioEnvase';
+  constructor(private readonly prisma: PrismaService) {}
+  create(data: CreateTamanioEnvaseDto) {
+    return this.prisma.tamanioEnvase.create({ data });
   }
 
   findAll() {
-    return `This action returns all tamanioEnvase`;
+    return this.prisma.tamanioEnvase.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} tamanioEnvase`;
+    return this.prisma.tamanioEnvase.findUnique({
+      where: { id },
+    });
   }
 
-  update(id: number, updateTamanioEnvaseDto: UpdateTamanioEnvaseDto) {
-    return `This action updates a #${id} tamanioEnvase`;
+  update(id: number, data: UpdateTamanioEnvaseDto) {
+    return this.prisma.tamanioEnvase.update({
+      where: { id },
+      data: data,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} tamanioEnvase`;
+    return this.prisma.tamanioEnvase.delete({ where: { id } });
   }
 }
