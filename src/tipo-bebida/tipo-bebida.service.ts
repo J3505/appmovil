@@ -7,8 +7,8 @@ import { PrismaService } from 'nestjs-prisma';
 export class TipoBebidaService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createTipoBebidaDto: CreateTipoBebidaDto) {
-    return this.prisma.tipoBebida.create({ data: createTipoBebidaDto });
+  create(data: CreateTipoBebidaDto) {
+    return this.prisma.tipoBebida.create({ data: data });
   }
 
   findAll() {

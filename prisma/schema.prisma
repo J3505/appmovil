@@ -68,8 +68,8 @@ model Producto {
   descripcion String?
   precio      Float
   stock       Int
-
-  proveedor   User   @relation(fields: [proveedorId], references: [id])
+  imagen      String?
+  proveedor   User    @relation(fields: [proveedorId], references: [id])
   proveedorId String
 
   tipoBebida   TipoBebida @relation(fields: [tipoBebidaId], references: [id])

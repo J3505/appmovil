@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TamanioEnvaseService } from './tamanio-envase.service';
 import { CreateTamanioEnvaseDto } from './dto/create-tamanio-envase.dto';
 import { UpdateTamanioEnvaseDto } from './dto/update-tamanio-envase.dto';
@@ -23,7 +31,10 @@ export class TamanioEnvaseController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTamanioEnvaseDto: UpdateTamanioEnvaseDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTamanioEnvaseDto: UpdateTamanioEnvaseDto,
+  ) {
     return this.tamanioEnvaseService.update(+id, updateTamanioEnvaseDto);
   }
 
