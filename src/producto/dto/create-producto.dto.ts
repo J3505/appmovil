@@ -17,6 +17,8 @@ export class CreateProductoDto {
   @IsOptional()
   descripcion?: string;
 
+  imagen?: string;
+
   @IsNumber()
   @IsPositive()
   precio: number;
